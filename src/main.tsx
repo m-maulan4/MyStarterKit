@@ -19,7 +19,7 @@ createRoot(document.getElementById("root")!).render(
               return r.items.map((rr) => (
                 <Route
                   key={rr.path}
-                  path={rr.path}
+                  path={r.path + "/" + rr.path}
                   element={<rr.component />}
                 />
               ));

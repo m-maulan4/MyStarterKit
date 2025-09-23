@@ -1,4 +1,4 @@
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 
 import {
   Collapsible,
@@ -14,26 +14,16 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import RouterNavMainSecond from "@/routers/RouterNavMainSecond";
 import { useState } from "react";
+import { NavLink } from "react-router";
 
-export function NavMainSecond({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: LucideIcon;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function NavMainSecond() {
   const [openIndex, SetOpenIndex] = useState<string>("");
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => (
+        {RouterNavMainSecond.map((item) => (
           <Collapsible
             key={item.title}
             asChild
@@ -56,9 +46,9 @@ export function NavMainSecond({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
+                        <NavLink to={subItem.path}>
                           <span>{subItem.title}</span>
-                        </a>
+                        </NavLink>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}

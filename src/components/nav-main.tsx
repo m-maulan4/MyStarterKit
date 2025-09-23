@@ -1,40 +1,28 @@
-"use client"
-
-import {
-  type LucideIcon,
-} from "lucide-react"
-
+"use client";
 import {
   SidebarGroup,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
+import RouterNavMain from "@/routers/RouterNavMain";
+import { NavLink } from "react-router";
 
-export function NavMain({
-  items,
-}: {
-  items: {
-    name: string
-    url: string
-    icon: LucideIcon
-  }[]
-}) {
-
+export function NavMain() {
   return (
     <SidebarGroup>
       <SidebarMenu>
-        {items.map((item) => (
-          <SidebarMenuItem key={item.name}>
-            <SidebarMenuButton tooltip={item.name} asChild>
-              <a href={item.url}>
-                <item.icon />
-                <span>{item.name}</span>
-              </a>
+        {RouterNavMain.map((item) => (
+          <SidebarMenuItem key={item.title}>
+            <SidebarMenuButton tooltip={item.title} asChild>
+              <NavLink to={item.path}>
+                {item.icon && <item.icon />}
+                <span>{item.title}</span>
+              </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
       </SidebarMenu>
     </SidebarGroup>
-  )
+  );
 }

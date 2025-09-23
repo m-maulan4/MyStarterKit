@@ -1,4 +1,4 @@
-import Home from "@/pages/Home";
+import Keuangan from "@/pages/Keuangan";
 import { Banknote, type LucideIcon } from "lucide-react";
 import type React from "react";
 
@@ -23,7 +23,7 @@ const RouterNavMainSecond: RouterDataProps[] = [
       {
         title: "Laporan",
         path: "laporan",
-        component: Home,
+        component: Keuangan,
       },
     ],
   },

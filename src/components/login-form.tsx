@@ -3,7 +3,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { useAuth } from "@/hooks/authLogin";
+import { useLoginMutation } from "@/features/auth/authApi";
+import { setCredentials } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/hooks/AppDispatch";
+import { useNavigate } from "react-router";
 
 export function LoginForm({
   className,
@@ -11,18 +14,28 @@ export function LoginForm({
 }: React.ComponentProps<"form">) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoading, loginError } = useAuth();
+  const [login, { isLoading, error }] = useLoginMutation();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  console.log(error);
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      await login(username, password);
+      const result = await login({ username, password }).unwrap();
+      dispatch(setCredentials(result));
+      navigate("/");
     } catch (error) {
       throw error;
     }
   };
 
   return (
-    <form className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+      onSubmit={handleSubmit}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Login to your account</h1>
         <p className="text-muted-foreground text-sm text-balance">
@@ -30,36 +43,34 @@ export function LoginForm({
         </p>
       </div>
       <div className="grid gap-6">
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-3">
-            <Label htmlFor="username">Username</Label>
-            <Input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-            />
+        <div className="grid gap-3">
+          <Label htmlFor="username">Username</Label>
+          <Input
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </div>
+        <div className="grid gap-3">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        {error && (
+          <div className="error-message">
+            Login failed. Please check your credentials.
           </div>
-          <div className="grid gap-3">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-          {loginError && (
-            <div className="error-message">
-              Login failed. Please check your credentials.
-            </div>
-          )}
-          <Button type="submit" className="w-full" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
-          </Button>
-        </form>
+        )}
+        <Button type="submit" className="w-full" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Login"}
+        </Button>
       </div>
     </form>
   );

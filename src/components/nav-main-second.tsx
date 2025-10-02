@@ -16,10 +16,11 @@ import {
 } from "@/components/ui/sidebar";
 import RouterNavMainSecond from "@/routers/RouterNavMainSecond";
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { NavLink, useLocation } from "react-router";
 
 export function NavMainSecond() {
   const [openIndex, SetOpenIndex] = useState<string>("");
+  const location = useLocation();
   return (
     <SidebarGroup>
       <SidebarMenu>
@@ -27,7 +28,10 @@ export function NavMainSecond() {
           <Collapsible
             key={item.title}
             asChild
-            open={openIndex === item.title}
+            open={
+              openIndex === item.title ||
+              location.pathname.split("/")[1] === item.path
+            }
             onClick={() => {
               SetOpenIndex(openIndex === item.title ? "" : item.title);
             }}

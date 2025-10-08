@@ -17,17 +17,23 @@ export function LoginForm({
   const [login, { isLoading, error }] = useLoginMutation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  console.log(error);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const result = await login({ username, password }).unwrap();
+      const result = login({ username, password }).unwrap;
       dispatch(setCredentials(result));
       navigate("/");
-    } catch (error) {
-      throw error;
+    } catch (err) {
+      console.log(err);
     }
+    // try {
+    //   const result = await login({ username, password }).unwrap();
+    //   dispatch(setCredentials(result));
+    //   navigate("/");
+    // } catch (error) {
+    //   throw error;
+    // }
   };
 
   return (

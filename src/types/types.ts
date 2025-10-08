@@ -1,5 +1,5 @@
 export interface AuthState {
   username: string;
-  access_token: string;
+  token_user: string;
   isAuthenticated: boolean;
 }

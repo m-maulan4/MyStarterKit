@@ -9,7 +9,7 @@ interface LoginRequest {
 
 interface LoginResponse {
   username: string;
-  access_token: string;
+  token_user: string;
   // refreshToken dikirim via cookie HttpOnly, tidak perlu di handle disini
 }
 

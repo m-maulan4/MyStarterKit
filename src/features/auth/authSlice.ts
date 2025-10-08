@@ -3,9 +3,8 @@ import { type AuthState } from "@/types/types";
 
 const initialState: AuthState = {
   username: "",
-  access_token: "",
+  token_user: "",
   isAuthenticated: false,
-  // role: "",
 };
 
 const authSlice = createSlice({
@@ -14,14 +13,12 @@ const authSlice = createSlice({
   reducers: {
     setCredentials: (state, action: PayloadAction<AuthState>) => {
       state.username = action.payload.username;
-      // state.role = action.payload.role;
-      state.access_token = action.payload.access_token;
+      state.token_user = action.payload.token_user;
       state.isAuthenticated = true;
     },
     logout: (state) => {
       state.username = "";
-      // state.role = "";
-      state.access_token = "";
+      state.token_user = "";
       state.isAuthenticated = false;
     },
   },

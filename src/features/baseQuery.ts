@@ -10,13 +10,13 @@ import { setCredentials, logout } from "@/features/auth/authSlice";
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:4000",
   credentials: "include", // penting agar refreshToken di cookie ikut
-  prepareHeaders: (headers, { getState }) => {
-    const token = (getState() as any).auth.access_token;
-    if (token) {
-      headers.set("authorization", `Bearer ${token}`);
-    }
-    return headers;
-  },
+  // prepareHeaders: (headers, { getState }) => {
+  //   const token = (getState() as RootState).auth.access_token;
+  //   if (token) {
+  //     headers.set("authorization", `Bearer ${token}`);
+  //   }
+  //   return headers;
+  // },
 });
 
 export const baseQueryWithReauth: BaseQueryFn<
@@ -33,16 +33,16 @@ export const baseQueryWithReauth: BaseQueryFn<
     const refreshResult = await baseQuery("/auth/newToken", api, extraOptions);
 
     if (refreshResult.data) {
-      const { access_token, username } = refreshResult.data as {
-        access_token: string;
+      const { username, token_user } = refreshResult.data as {
         username: string;
+        token_user: string;
       };
 
       // update state dengan accessToken baru
       api.dispatch(
         setCredentials({
-          access_token,
           username,
+          token_user,
           isAuthenticated: true,
         })
       );

@@ -16,19 +16,22 @@ import {
 import { logout } from "@/features/auth/authSlice";
 import { useLogoutMutation } from "@/features/auth/authApi";
 import { useAppDispatch, useAppSelector } from "@/hooks/AppDispatch";
+import { useNavigate } from "react-router";
 
 export function NavUser() {
   const { isMobile } = useSidebar();
   const user = useAppSelector((state) => state.auth);
   const [logoutApi] = useLogoutMutation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await logoutApi().unwrap();
-    } catch (error) {
-      console.error("Failed to logout:", error);
-    } finally {
       dispatch(logout());
+      navigate("/login");
+    } catch (error) {
+      dispatch(logout());
+      console.error("Failed to logout:", error);
     }
   };
   return (

@@ -21,7 +21,7 @@ export function LoginForm({
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     try {
-      const result = login({ username, password }).unwrap;
+      const result = await login({ username, password }).unwrap();
       dispatch(setCredentials(result));
       navigate("/");
     } catch (err) {

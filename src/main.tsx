@@ -16,22 +16,22 @@ createRoot(document.getElementById("root")!).render(
       <Provider store={store}>
         <BrowserRouter>
           <Routes>
-            <Route element={<ProtectedRoute />}>
-              <Route element={<App />}>
-                {RouterNavMain.map((r) => (
-                  <Route path={r.path} element={<r.component />} />
-                ))}
-                {RouterNavMainSecond.map((r) => {
-                  return r.items.map((rr) => (
-                    <Route
-                      key={rr.path}
-                      path={r.path + "/" + rr.path}
-                      element={<rr.component />}
-                    />
-                  ));
-                })}
-              </Route>
+            {/* <Route element={<ProtectedRoute />}> */}
+            <Route element={<App />}>
+              {RouterNavMain.map((r) => (
+                <Route path={r.path} element={<r.component />} />
+              ))}
+              {RouterNavMainSecond.map((r) => {
+                return r.items.map((rr) => (
+                  <Route
+                    key={rr.path}
+                    path={r.path + "/" + rr.path}
+                    element={<rr.component />}
+                  />
+                ));
+              })}
             </Route>
+            {/* </Route> */}
             <Route path="/login" element={<LoginPage />} />
           </Routes>
         </BrowserRouter>
